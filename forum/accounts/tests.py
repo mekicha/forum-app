@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.core.urlresolvers import reverse
 from django.urls import resolve
@@ -47,3 +48,21 @@ class SuccessfulSignUpTests(TestCase):
 		response = self.client.get(self.home_url)
 		user = response.context.get('user')
 		self.assertTrue(user.is_authenticated)
+
+
+class InvalidSignupTests(TestCase):
+	def setUp(self):
+		url = reverse('signup')
+		self.response = self.client.post(url, {})
+
+	def test_signup_status_code(self):
+		self.assertEqual(self.response.status_code, 200)
+
+	def test_form_errors(self):
+		form = self.response.context.get('form')
+		self.assertTrue(form.errors)
+
+	def test_user_not_created(self):
+		self.assertFalse(User.objects.exists())
+
+
