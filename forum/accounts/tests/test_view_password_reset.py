@@ -19,7 +19,7 @@ class PasswordResetTests(TestCase):
 		self.assertEqual(view.func, auth_views.PasswordResetView.as_view())
 
 	def test_csrf(self):
-		self.assertContains(response, 'csrfmiddlewaretoken')
+		self.assertContains(self.response, 'csrfmiddlewaretoken')
 
 	def test_contains_form(self):
 		form = self.response.context.get('form')
