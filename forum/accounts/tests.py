@@ -1,10 +1,10 @@
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm
 from django.core.urlresolvers import reverse
 from django.urls import resolve
 from django.test import TestCase
 
 from .views import signup
+from .forms import SignupForm
 
 class SignupTests(TestCase):
 	def setUp(self):
@@ -24,7 +24,7 @@ class SignupTests(TestCase):
 
 	def test_contains_form(self):
 		form = self.response.context.get('form')
-		self.assertIsInstance(form, UserCreationForm)
+		self.assertIsInstance(form, SignupForm)
 
 
 class SuccessfulSignUpTests(TestCase):
@@ -32,6 +32,7 @@ class SuccessfulSignUpTests(TestCase):
 		url = reverse('signup')
 		data = {
 			'username': 'johnson',
+			'email': 'johnson@gmail.com',
 			'password1': 'boardtest2020',
 			'password2': 'boardtest2020'
 		}
